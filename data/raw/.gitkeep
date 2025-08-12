@@ -1,0 +1,6 @@
+# This file ensures the data/raw/ directory is tracked by Git
+# Place your MIMIC-IV raw data files here:
+# - patients.csv.gz
+# - admissions.csv.gz
+# - diagnoses_icd.csv.gz
+# - d_icd_diagnoses.csv.gz

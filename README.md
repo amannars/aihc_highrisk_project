@@ -1,23 +1,30 @@
-# Predicting 30-Day Hospital Readmissions with MIMIC-IV
+# Combining structured and unstructured data as features for deep learning in healthcare predictions    
 
 ## Overview
 
-This tutorial demonstrates how to build a machine learning model to predict 30-day, 60-day and 90-day hospital readmissions using the MIMIC-IV dataset. Hospital readmissions within 30 days of discharge are a critical healthcare quality metric, contributing to an estimated $15–$20 billion in avoidable costs annually in the United States.
+The intent of this project is to demonstrate meaningful way to combine both structured and unstructured data as features to build a deep learning model. I have taken a known problem in healthcare that is readmission into hospital after discharge. In this tutorial, we will learn how to build a machine learning model to predict 30-day, 60-day and 90-day hospital readmissions using the MIMIC-IV dataset. While this is something that everyone would want to try, here is the novelty of my approach: **Using the free text field as features in addition to the existing numerical features**. While hospital readmissions within 30 days of discharge are a critical healthcare quality metric, my goal is to encourage the combined use of numerical features and text features(converted to embedding using BioBert).
 
 ## Learning Objectives
 
-The intent of this tutorial is to satisfy the requirements of the tutorial assignment. This tutorial is expected to showcase:
+The intent of this tutorial is to satisfy the requirements of the high risk project. This tutorial is expected to showcase:
 
 - **Understanding of MIMIC-IV** large-scale electronic health record dataset  
 - **Motivating a heathcare related issue** Establish a healthcare problem that can be addressed using the MIMIC-IV dataset
-- **Design, Build and evaluate** machine learning models for the stated problem
-- **Interpreting the model results** and understand clinical implications
-- **Creating reproducible code** with detailed documentation
+- **Design, Build and evaluate** Machine learning models for the stated problem using this modern approach.  
+- **Creating reproducible code** with detailed documentation   
+- **How can we further this space** by providing more suggestions.      
+
+## Hypothesis   
+
+Language models are good representation learners. They can represent unstructured corpus of text into vectors, otherwise known as embeddings. These embeddings are high dimensional vectors that preserves the semantic of an otherwise unstructured data which would be difficult to be used in machine learning algorithms.  
+
+For this particular tutorial, readmission to hosiptal within 30, 60 and 90 days is assumed to be a function of patient demographics, the reason for admission and other admission related variables, previous admissions, length of stay for the current visit, combined length of stay for all previous visits, ICD_CODEs, the medication history and most importantly, the diagnostic notes during a perticular visit. It is likely that a lot of these covariates are endogenetic in nature. However, our goal for this is ML/DL more so than an econometric analysis. In fact, deep learning frameworks could thrive on such data analysis set up.     
+
 
 ## Project Structure
 
 ```
-aihc_tutorial_project/
+aihc_highrisk_project/
 ├── README.md                         # This file
 ├── requirements.txt                  # Python dependencies
 ├── data/                             # Data storage (not included in repo)
@@ -27,18 +34,8 @@ aihc_tutorial_project/
 │   ├── 01_data_exploration.ipynb     # Initial data analysis
 │   ├── 02_feature_engineering.ipynb  # Feature creation
 │   ├── 03_model_development.ipynb    # Model training and evaluation
-│   └── 04_model_interpretation.ipynb # Model explanation
-├── src/                              # Source code
-│   ├── __init__.py
-│   ├── data_processing.py            # Data loading and preprocessing
-│   ├── feature_engineering.py        # Feature creation functions
-│   ├── model_training.py             # Model training utilities
-│   └── evaluation.py                 # Model evaluation metrics
-├── slides/                           # Presentation materials
-│   └── tutorial_presentation.pptx    # Step-by-step tutorial slides
-└── results/                          # Model outputs and visualizations
-    ├── models/                       # Trained model files
-    └── figures/                      # Generated plots and charts
+│   └── 04_end_to_end.ipynb           # Complete reproducible solution
+
 ```
 
 ## Prerequisites
@@ -53,34 +50,7 @@ aihc_tutorial_project/
 - Jupyter Notebook
 - Required packages (see `requirements.txt`)
 
-## Installation
-
-1. **Clone the repository**:
-   ```bash
-   git clone <repository-url>
-   cd aihc_tutorial_project
-   ```
-
-2. **Create a virtual environment**:
-   ```bash
-   python -m venv venv
-   source venv/bin/activate  # On Windows: venv\Scripts\activate
-   ```
-
-3. **Install dependencies**:
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-4. **Set up MIMIC-IV database connection**:
-   - Configure your database connection parameters
-   - Update the connection settings in `src/data_processing.py`
-
-## Tutorial Workflow   
-
-### 1. Problem Statement: Motivation and Method   
-- Predicting the probability of hospital readmission withing 30 days  
-- 
+## Project Workflow   
 
 ### 1. Data Exploration (`notebooks/01_data_exploration.ipynb`)
 - Understand MIMIC-IV data structure
@@ -98,57 +68,67 @@ aihc_tutorial_project/
 - Split data into training/validation/test sets
 - Train multiple machine learning models
 - Evaluate model performance using appropriate metrics
-- Handle class imbalance in readmission prediction
+- Handle class imbalance in readmission prediction   
 
-### 4. Model Interpretation (`notebooks/04_model_interpretation.ipynb`)
-- Analyze feature importance
-- Generate SHAP explanations
-- Interpret clinical implications
-- Validate model predictions
+### 4. End-to-End Solution (`notebooks/04_end_to_end.ipynb`)
+- **Complete reproducible solution** combining all previous work
+- Automated data loading, processing, and feature engineering
+- BioBERT embedding generation for diagnosis text
+- Training of all three models (30d, 60d, 90d readmission prediction)
+- Comprehensive evaluation and results summary
+- **Run this single notebook to reproduce all results**
 
-## Key Concepts Covered
 
-### Healthcare-Specific Challenges
-- **Class Imbalance**: Readmissions are relatively rare events
-- **Temporal Aspects**: Time-based features and censoring
-- **Clinical Interpretability**: Model decisions must be explainable
-- **Data Quality**: Missing values, outliers, and measurement errors
 
-### Machine Learning Techniques
-- **Feature Engineering**: Creating clinically relevant features
-- **Model Selection**: Comparing different algorithms
-- **Evaluation Metrics**: AUC-ROC, precision-recall, calibration
-- **Interpretability**: SHAP values and feature importance
+The first three notebooks walk you through the thought process of my analysis, while the fourth notebook will enable you to run the project end to end.
 
-## Expected Outcomes
+## Quick Start
 
-After completing this tutorial, you will have:
-- A working machine learning model for readmission prediction
-- Understanding of healthcare data preprocessing challenges
-- Skills in model evaluation and interpretation
-- Reproducible code that can be applied to other healthcare datasets
+To reproduce all results with a single notebook:
 
-## Contributing
+1. **Clone this repository**:
+   ```bash
+   git clone https://github.com/amannars/aihc_highrisk_project.git
+   cd aihc_highrisk_project
+   ```
 
-This tutorial is designed for educational purposes. If you find issues or have suggestions for improvements, please:
+2. **Install dependencies**:
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Submit a pull request
+3. **Obtain MIMIC-IV data** (requires PhysioNet access):
+   - Download the following files from MIMIC-IV:
+     - `patients.csv.gz`
+     - `admissions.csv.gz` 
+     - `diagnoses_icd.csv.gz`
+     - `d_icd_diagnoses.csv.gz`
+   - Place these files in the `data/raw/` directory
 
-## License
+4. **Run the project**:
+   - **Option A - Complete end-to-end**: Run `notebooks/04_end_to_end.ipynb`
+   - **Option B - Step by step**: Run notebooks 01 → 02 → 03 → 04 in sequence
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+The end-to-end notebook will:
+- Load and process all raw data
+- Create balanced patient cohorts
+- Generate BioBERT embeddings
+- Train all three prediction models
+- Produce comprehensive results and visualizations
+
+**Estimated runtime**: 2-4 hours (depending on hardware and embedding generation)
+
+## Data Notice
+⚠️ **Important**: This repository contains code only. MIMIC-IV data is not included due to data use agreements. Users must obtain their own access through [PhysioNet](https://physionet.org/content/mimiciv/2.2/).   
 
 ## Acknowledgments
 
-- MIMIC-IV database and PhysioNet for providing the dataset
+- MIMIC-IV database and PhysioNet for providing the dataset   
+- AI 394D - Deep Learning at UTA - Notes and Code   
 - Python Foundation   
-- All open source libraries supporting the analysis
-- Course instructors
+- All open source libraries supporting the analysis    
+- Course instructors    
+- GitHub Copilot     
 
 
----
-
-**Note**: This tutorial assumes you have completed the required training and have access to the MIMIC-IV dataset. Please ensure you comply with all data use agreements and privacy requirements. 
+**Note**: This project assumes that you have completed the required training and have access to the MIMIC-IV dataset. Please ensure you comply with all data use agreements and privacy requirements. While I will not provide the data, all you will need to reproduce the project will be to simply place the data in the project/data/raw directory.   

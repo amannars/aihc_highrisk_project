@@ -1,0 +1,2 @@
+# This file ensures the data/processed/ directory is tracked by Git
+# Processed data files will be generated automatically when you run the notebooks
