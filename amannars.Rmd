@@ -3,8 +3,12 @@ title: "Combining Structured and Unstructured Data: An LLM-Enhanced Feature Lear
 author: "Aravind Mannarswamy"
 date: "2025-08-10"
 output: pdf_document
+classoption:
+  - twocolumn
 header-includes:
   - \usepackage{float}
+  - \usepackage{indentfirst}
+  - \setlength{\parindent}{3em}   % set indentation width
 ---
 
 ## 1. Introduction
@@ -68,7 +72,7 @@ I extracted:
 - **re-admit labels:** within 30, 60, and 90 days
 - **Text numerical summary of the texts:** BioBERT numerical summary of the texts from collapsed medical diagnosis descriptions
 
-Text numerical summary of the texts were generated using `pritamdeka/BioBERT-mnli-snli-scinli-scitail-mednli-stsb` and stored as dense vectors.
+Text numerical summary of the texts were generated using `BioBERT-mnli-snli-scinli-scitail-mednli-stsb` and stored as dense vectors.
 
 One-hot encoding was applied to categorical features; numerical features were standardized.
 
@@ -94,11 +98,7 @@ I trained separate deep neural networks for each prediction window (30, 60, 90 d
 **Performance Summary:**  
 Models combining structured features with BioBERT numerical summary of the texts outperformed models using only organized information (like numbers and categories) across all prediction windows.
 
-| Horizon | AUC (higher is better) | Precision | Recall |  F1 Score  |   
-|---------|------------------------|-----------|--------|------------|
-| 30-day  | 0.8236                 | 0.6256    | 0.4388 |  0.5158    |
-| 60-day  | 0.8398                 | 0.6401    | 0.5577 |  0.5961    |
-| 90-day  | 0.8517                 | 0.6379    | 0.6901 |  0.6630    |               
+![Model Evaluation Metrics](auc.png)          
 
 Precision and recall also improved, indicating better identification of true positives without significantly increasing false positives.
 
